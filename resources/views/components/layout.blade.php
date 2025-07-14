@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>{{ $title ?? 'Blog App' }}</title>
+    <title>{{ $title ?? 'Blog App' }} - Blog App By Himesh Dua</title>
     @vite('resources/css/app.css')
     {{-- <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> --}}
 </head>
@@ -31,6 +31,9 @@
                 <ul class="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 w-full sm:w-auto">
                     @auth
                         @can('isUser')
+                            <li><a href="{{ route('user.dashboard') }}"
+                                    class="btn btn-link w-full sm:w-auto text-left">Posts</a>
+                            </li>
                             <li><a href="{{ route('user.profile') }}"
                                     class="btn btn-link w-full sm:w-auto text-left">Profile</a></li>
                         @endcan
@@ -47,10 +50,19 @@
                 <div class="flex flex-col sm:flex-row gap-2 sm:gap-3 sm:ml-6 w-full sm:w-auto">
                     @auth
                         <span class="btn btn-outline w-full sm:w-auto text-sm">{{ Auth::user()->name }}</span>
-                        <form method="POST" action="{{ route('logout') }}" class="w-full sm:w-auto">
+                        <form method="POST" action="{{ route('logout') }}" class="w-full sm:w-auto"
+                            onsubmit="return confirmLogout(this);">
                             @csrf
-                            <button type="submit" class="btn btn-destructive w-full sm:w-auto text-sm">Logout</button>
+                            <button type="submit" class="btn btn-destructive w-full sm:w-auto text-sm">
+                                Logout
+                            </button>
                         </form>
+
+                        <script>
+                            function confirmLogout(form) {
+                                return confirm('Are you sure you want to logout?');
+                            }
+                        </script>
                     @else
                         <a href="{{ route('login') }}" class="btn btn-link w-full sm:w-auto text-sm text-left">Log In</a>
                         <a href="{{ route('register') }}"
@@ -62,7 +74,7 @@
     </header>
 
     @if (session('error'))
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 mt-6">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 mt-6">
             <div class="bg-red-100 text-red-800 text-sm p-3 rounded-lg mb-4">
                 {{ session('error') }}
             </div>
@@ -70,7 +82,7 @@
     @endif
 
     @if (session('success'))
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 mt-6">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 mt-6">
             <div class="bg-green-100 text-green-800 text-sm p-3 rounded-lg mb-4">
                 {{ session('success') }}
             </div>
@@ -78,14 +90,14 @@
     @endif
 
     @if (isset($section_title))
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 mt-10">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 mt-10">
             <h1 class="text-3xl font-bold text-primary tracking-tight">
                 {{ $section_title }}
             </h1>
         </div>
     @endif
 
-    <main class="max-w-7xl relative min-h-[60vh] mx-auto px-4 sm:px-6 py-10 space-y-12">
+    <main class="max-w-4xl relative min-h-[60vh] mx-auto px-4 sm:px-6 py-10 space-y-12">
         {{ $slot }}
     </main>
 
